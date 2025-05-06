@@ -3,63 +3,78 @@
 namespace App\Http\Controllers;
 
 use App\Models\Suppliers;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SuppliersController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Prikaz svih dobavljača.
      */
     public function index()
     {
-        //
+        $suppliers = Suppliers::with('user')->get();
+        return view('suppliers/index', compact('suppliers'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Prikaz forme za kreiranje novog dobavljača.
      */
     public function create()
     {
-        //
+        $users = User::all(); // Ako želiš omogućiti izbor usera
+        return view('suppliers/create', compact('users'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Spremanje novog dobavljača.
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'company_name' => 'required|string|max:255',
+            'user_id' => 'required|exists:users,id',
+            'contact_person' => 'nullable|string|max:255',
+        ]);
+
+        Suppliers::create($validated);
+
+        return redirect()->route('suppliers.index')->with('success', 'Supplier updated successfully!');
+
     }
 
     /**
-     * Display the specified resource.
+     * Prikaz forme za uređivanje dobavljača.
      */
-    public function show(Suppliers $suppliers)
+    public function edit(Suppliers $supplier)
     {
-        //
+        $users = User::all();
+        return view('suppliers/edit', compact('supplier', 'users'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Ažuriranje dobavljača.
      */
-    public function edit(Suppliers $suppliers)
+    public function update(Request $request, Suppliers $supplier)
     {
-        //
+        $validated = $request->validate([
+            'company_name' => 'required|string|max:255',
+            'user_id' => 'required|exists:users,id',
+            'contact_person' => 'nullable|string|max:255',
+        ]);
+
+        $supplier->update($validated);
+
+        return redirect()->route('suppliers.index')->with('success', 'Supplier updated successfully!');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Brisanje dobavljača.
      */
-    public function update(Request $request, Suppliers $suppliers)
+    public function destroy(Suppliers $supplier)
     {
-        //
-    }
+        $supplier->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Suppliers $suppliers)
-    {
-        //
+        return redirect()->route('suppliers/index')->with('success', 'Supplier deleted successfully!');
     }
 }
