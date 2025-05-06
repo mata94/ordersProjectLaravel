@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contract;
+use App\Models\Suppliers;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ContractController extends Controller
@@ -12,7 +14,8 @@ class ContractController extends Controller
      */
     public function index()
     {
-        //
+        $contracts = Contract::all();
+        return view('contracts/index', compact('contracts'));
     }
 
     /**
@@ -20,7 +23,10 @@ class ContractController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::all();
+        $suppliers = Suppliers::all();
+
+        return view('contracts/create', compact('users','suppliers'));
     }
 
     /**
