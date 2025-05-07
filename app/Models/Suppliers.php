@@ -29,9 +29,14 @@ class Suppliers extends Model
 
     }
 
-    // Supplier.php (Model)
+    public function contracts()
+    {
+        return $this->hasMany(Contract::class);
+    }
 
-
-
+    public function supplierItems()
+    {
+        return $this->hasMany(SupplierItems::class, 'supplier_id');
+    }
 }
 

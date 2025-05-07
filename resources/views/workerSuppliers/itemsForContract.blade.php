@@ -36,13 +36,13 @@
                 <td>
                     <form method="POST" action="{{ route('contract.addItem', ['contractId' => $contract->id]) }}">
                         @csrf
-                        <div style="display:flex;">
-                            <div style="display:block;">
-                                <label>Quantity</label>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                            <div style="display: flex; align-items: center;">
+                                <label for="quantity" style="margin-right: 5px;">Quantity</label>
                                 <input type="hidden" name="item_id" value="{{ $supplierItem->item->id }}">
+                                <input type="number" name="quantity" value="1" min="1" max="{{ $supplierItem->quantity }}" class="form-control mb-1" style="width: 80px; height: 35px; font-size: 16px; text-align: center;">
                             </div>
-                            <input type="number" name="quantity" value="1" min="1" class="form-control mb-1" style="width: 80px;">
-                            <button type="submit" class="btn btn-primary btn-sm">Add</button>
+                            <button type="submit" class="btn btn-primary btn-lg" style="height: 40px; font-size: 16px; padding-left: 20px; padding-right: 20px;">Add</button>
                         </div>
                     </form>
                 </td>

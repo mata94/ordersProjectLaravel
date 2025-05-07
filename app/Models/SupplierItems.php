@@ -20,5 +20,9 @@ class SupplierItems extends Model
         return $this->belongsTo(Item::class, 'item_id', 'id');
     }
 
+    public function supplier()
+    {
+        return $this->belongsTo(Suppliers::class, 'supplier_id');
+    }
 }
 

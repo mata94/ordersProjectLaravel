@@ -60,11 +60,6 @@ class SuppliersWorker
 
     public function addItemToContract(Request $request,$contractId)
     {
-        $validated = $request->validate([
-            'item_id' => 'required|exists:items,id',
-            'quantity' => 'required|integer|min:1',
-        ]);
-
         $request->validate([
             'item_id' => 'required|exists:items,id',
             'quantity' => 'required|integer|min:1',
@@ -73,12 +68,30 @@ class SuppliersWorker
         $contract = Contract::findOrFail($contractId);
         $item = Item::findOrFail($request->item_id);
 
-        ContractItems::create([
-            'contract_id' => $contract->id,
-            'item_id' => $item->id,
-            'quantity' => $request->quantity,
-            'price_per_unit' => $item->unit_price,
+        $supplier = $contract->supplier;
+
+        $supplierItem = $supplier->supplierItems()
+            ->where('item_id', $item->id)
+            ->first();
+
+        $supplierItem->update([
+            'quantity' => $supplierItem->quantity - $request->quantity,
         ]);
+
+        $contractItem = $contract->contractItems()
+            ->where('item_id', $item->id)
+            ->first();
+
+        if($contractItem){
+            $contractItem->update(['quantity' => $contractItem->quantity + $request->quantity]);
+        }else{
+            ContractItems::create([
+                'contract_id' => $contract->id,
+                'item_id' => $item->id,
+                'quantity' => $request->quantity,
+                'price_per_unit' => $item->unit_price,
+            ]);
+        }
 
         $total = ContractItems::where('contract_id', $contract->id)
             ->get()
@@ -100,7 +113,7 @@ class SuppliersWorker
             'end_date' => now()->addYear(),
         ]);
 
-        return redirect()->route('worker.suppliers.show', $contract->supplier_id)
+        return redirect()->route('worker.suppliers.index', $contract->supplier_id)
             ->with('success', 'Contract finalized.');
     }
 }

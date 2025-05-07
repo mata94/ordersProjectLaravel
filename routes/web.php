@@ -16,6 +16,9 @@ Route::resource('supplier-items', \App\Http\Controllers\SupplierItemController::
 
 Route::get('/supplier-items/{supplier}', [\App\Http\Controllers\SupplierItemController::class, 'show'])->name('supplier-items.show');
 
+Route::get('worker/suppliers', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'index'])
+    ->name('worker.suppliers.index');
+
 Route::get('worker/suppliers/{id}', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'showWorkerSuppliers'])
     ->name('worker.suppliers.showWorkerSuppliers');
 

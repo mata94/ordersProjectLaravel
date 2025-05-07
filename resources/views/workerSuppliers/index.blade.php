@@ -32,7 +32,7 @@
                 <td>{{ $supplier->contact_person ?? 'N/A' }}</td>
                 <td>{{ $supplier->user->name ?? 'Unknown User' }}</td>
                 <td>
-                    <a href="{{ route('worker.suppliers.show', $supplier->id) }}" class="btn btn-warning btn-sm">View Items</a>
+                    <a href="{{ route('worker.suppliers.showWorkerSuppliers', $supplier->id) }}" class="btn btn-warning btn-sm">View Items</a>
                     <a href="{{ route('worker.suppliers.createContract', ['id' => $supplier->id]) }}" class="btn btn-primary">
                         Create Contract
                     </a>
