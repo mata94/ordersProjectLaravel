@@ -18,7 +18,7 @@ class SuppliersWorker
         return view('workerSuppliers/index', compact('suppliers'));
     }
 
-    public function show($id)
+    public function showWorkerSuppliers($id)
     {
         $supplier = Suppliers::findOrFail($id);
         $supplierItems = SupplierItems::with('item')->where('supplier_id', $id)

@@ -16,10 +16,8 @@ Route::resource('supplier-items', \App\Http\Controllers\SupplierItemController::
 
 Route::get('/supplier-items/{supplier}', [\App\Http\Controllers\SupplierItemController::class, 'show'])->name('supplier-items.show');
 
-Route::resource('worker/suppliers', \App\Http\Controllers\Worker\SuppliersWorker::class)->names([
-    'show' => 'worker.suppliers.show',
-]);
-
+Route::get('worker/suppliers/{id}', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'showWorkerSuppliers'])
+    ->name('worker.suppliers.showWorkerSuppliers');
 
 Route::get('worker/supplier/{id}/create-contract', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'createContract'])
     ->name('worker.suppliers.createContract');
