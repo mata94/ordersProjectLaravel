@@ -15,6 +15,7 @@ class SuppliersController extends Controller
     {
         $suppliers = Suppliers::with('user')->get();
         return view('suppliers/index', compact('suppliers'));
+        
     }
 
     /**

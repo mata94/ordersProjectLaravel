@@ -19,5 +19,19 @@ class Suppliers extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function items()
+    {
+        return $this->belongsToMany(Item::class, 'supplier_items','supplier_id','item_id')
+            ->withPivot('quantity')
+            ->withTimestamps();
+
+
+    }
+
+    // Supplier.php (Model)
+
+
+
 }
 

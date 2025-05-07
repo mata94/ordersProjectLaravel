@@ -33,8 +33,8 @@
                 <td>{{ $item->item_description }}</td>
                 <td>${{ number_format($item->unit_price, 2) }}</td>
                 <td>
-                    <a href="{{ route('items.edit', $item->item_id) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="{{ route('items.destroy', $item->item_id) }}" method="POST" style="display:inline;">
+                    <a href="{{ route('items.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ route('items.destroy', $item->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>

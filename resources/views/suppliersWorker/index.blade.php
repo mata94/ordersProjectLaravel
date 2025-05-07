@@ -8,10 +8,7 @@
 </head>
 <body>
 <div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Suppliers List</h1>
-        <a href="{{ route('suppliers.create') }}" class="btn btn-primary">Create Supplier</a>
-    </div>
+    <h1 class="mb-4">Suppliers List</h1>
 
     @if(session('success'))
         <div class="alert alert-success">
@@ -25,7 +22,6 @@
             <th>Company Name</th>
             <th>Contact Person</th>
             <th>User</th>
-            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -34,18 +30,11 @@
                 <td>{{ $supplier->company_name }}</td>
                 <td>{{ $supplier->contact_person ?? 'N/A' }}</td>
                 <td>{{ $supplier->user->name ?? 'Unknown User' }}</td>
-                <td>
-                    <a href="{{ route('suppliers.edit', $supplier->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="{{ route('suppliers.destroy', $supplier->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
-                    </form>
-                </td>
             </tr>
         @endforeach
         </tbody>
     </table>
+
 </div>
 </body>
 </html>
