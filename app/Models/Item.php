@@ -14,12 +14,16 @@ class Item extends Model
         'unit_price',
     ];
 
-
     public function suppliers()
     {
         return $this->belongsToMany(Suppliers::class, 'supplier_items')
             ->withPivot('quantity')
             ->withTimestamps();
+    }
+
+    public function supplierItems()
+    {
+        return $this->hasMany(SupplierItems::class);
     }
 
 }
