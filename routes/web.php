@@ -26,3 +26,13 @@ Route::post('worker/supplier/contract/{contractId}/add-item', [\App\Http\Control
     ->name('contract.addItem');
 
 Route::post('/contract/{id}/finish', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'finishContract'])->name('contract.finish');
+
+use App\Http\Controllers\AuthController;
+
+Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register.form');
+Route::post('register', [AuthController::class, 'register'])->name('register');
+
+Route::get('login', [AuthController::class, 'showLoginForm'])->name('login.form');
+Route::post('login', [AuthController::class, 'login'])->name('login');
+
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
