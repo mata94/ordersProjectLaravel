@@ -8,7 +8,14 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h1 class="mb-4">Items List</h1>
+
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-4">Items List</h1>
+        <a href="{{ route('items.create') }}" class="btn btn-primary">Create Item</a>
+    </div>
+
+
 
     @if(session('success'))
         <div class="alert alert-success">

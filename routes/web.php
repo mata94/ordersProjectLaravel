@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,7 +41,6 @@ Route::middleware([\App\Http\Middleware\RoleMiddleware::class . ':worker'])->gro
         ->name('worker.myContract.contractItems');
 });
 
-use App\Http\Controllers\AuthController;
 
 Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register.form');
 Route::post('register', [AuthController::class, 'register'])->name('register');
@@ -48,3 +49,19 @@ Route::get('login', [AuthController::class, 'showLoginForm'])->name('login.form'
 Route::post('login', [AuthController::class, 'login'])->name('login');
 
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+
+Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users.index');
+
+Route::get('/admin/create-user', [AdminController::class, 'showCreateUserForm'])->name('admin.create_user_form');
+Route::post('/admin/create-user', [AdminController::class, 'createUser'])->name('admin.create_user');
+
+
+Route::delete('/admin/user/{id}', [AdminController::class, 'destroy'])->name('admin.user.destroy');
+
+Route::get('/admin/users/{id}/edit', [AdminController::class, 'edit'])->name('admin.user.edit');
+
+
+Route::put('/admin/users/{id}', [AdminController::class, 'update'])->name('admin.users.update');
+
+
