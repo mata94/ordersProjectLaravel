@@ -116,4 +116,25 @@ class SuppliersWorker
         return redirect()->route('worker.suppliers.index', $contract->supplier_id)
             ->with('success', 'Contract finalized.');
     }
+
+    public function myContracts()
+    {
+        $userId = auth()->id();
+
+        $contracts = Contract::where('user_id', $userId)
+            ->with('supplier', 'user')
+            ->get();
+
+        return view('workerSuppliers/myContracts',[
+            "contracts" => $contracts,
+        ]);
+    }
+
+    public function contractItems($contractId)
+    {
+        $contractItems = ContractItems::where('contract_id',$contractId)->with('item')->get();
+        return view('workerSuppliers/contractItems', [
+            'contractItems' => $contractItems,
+        ]);
+    }
 }

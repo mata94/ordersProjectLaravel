@@ -16,19 +16,28 @@ Route::resource('supplier-items', \App\Http\Controllers\SupplierItemController::
 
 Route::get('/supplier-items/{supplier}', [\App\Http\Controllers\SupplierItemController::class, 'show'])->name('supplier-items.show');
 
-Route::get('worker/suppliers', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'index'])
-    ->name('worker.suppliers.index');
+Route::middleware([\App\Http\Middleware\RoleMiddleware::class . ':worker'])->group(function () {
+    Route::get('worker/suppliers', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'index'])
+        ->name('worker.suppliers.index');
 
-Route::get('worker/suppliers/{id}', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'showWorkerSuppliers'])
-    ->name('worker.suppliers.showWorkerSuppliers');
+    Route::get('worker/suppliers/{id}', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'showWorkerSuppliers'])
+        ->name('worker.suppliers.showWorkerSuppliers');
 
-Route::get('worker/supplier/{id}/create-contract', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'createContract'])
-    ->name('worker.suppliers.createContract');
+    Route::get('worker/supplier/{id}/create-contract', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'createContract'])
+        ->name('worker.suppliers.createContract');
 
-Route::post('worker/supplier/contract/{contractId}/add-item', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'addItemToContract'])
-    ->name('contract.addItem');
+    Route::post('worker/supplier/contract/{contractId}/add-item', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'addItemToContract'])
+        ->name('contract.addItem');
 
-Route::post('/contract/{id}/finish', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'finishContract'])->name('contract.finish');
+    Route::post('/contract/{id}/finish', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'finishContract'])
+        ->name('contract.finish');
+
+    Route::get('worker/contracts', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'myContracts'])
+        ->name('worker.contract.myContracts');
+
+    Route::get('worker/contract/{contractId}/items', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'contractItems'])
+        ->name('worker.myContract.contractItems');
+});
 
 use App\Http\Controllers\AuthController;
 
