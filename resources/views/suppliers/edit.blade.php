@@ -19,7 +19,7 @@
         </div>
     @endif
 
-    <form action="{{ route('suppliers.update', $supplier->id) }}" method="POST">
+    <form action="{{ route('admin.suppliers.update', $supplier->id) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -46,7 +46,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Update Supplier</button>
-        <a href="{{ route('suppliers.index') }}" class="btn btn-secondary">Back</a>
+        <a href="{{ route('admin.suppliers') }}" class="btn btn-secondary">Back</a>
     </form>
 </div>
 </body>

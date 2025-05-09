@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Supplier;
 
+use App\Http\Controllers\Controller;
 use App\Models\Item;
 use App\Models\SupplierItems;
 use App\Models\Suppliers;
@@ -15,8 +16,6 @@ class SupplierItemController extends Controller
     public function index()
     {
         $items = Item::all();
-
-
         return view('itemSuppliers/index', compact('items'));
     }
 
@@ -38,31 +37,37 @@ class SupplierItemController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $supplierId = 1; // fiksni supplier ID
+        $userId = auth()->id();
+        $supplier = Suppliers::where("user_id", $userId)->first();
 
-        $item = Item::findOrFail($validated['item_id']); // dohvat cijene
+        $item = Item::findOrFail($validated['item_id']);
+        $supplierItem = SupplierItems::where('item_id', $validated['item_id'])->first();
 
-        SupplierItems::create([
-            'supplier_id' => $supplierId,
-            'item_id' => $validated['item_id'],
-            'quantity' => $validated['quantity'],
-            'price_per_unit' => $item->unit_price, // OBAVEZNO DODANO
-        ]);
+        if($supplierItem){
+            $supplierItem->update(['quantity' => $supplierItem->quantity + $validated['quantity']]);
+        }else{
+            SupplierItems::create([
+                'supplier_id' => $supplier->id,
+                'item_id' => $validated['item_id'],
+                'quantity' => $validated['quantity'],
+                'price_per_unit' => $item->unit_price,
+            ]);
+        }
 
         return redirect()->back()->with('success', 'Item added to supplier list successfully.');
     }
 
-
-
     /**
      * Display the specified resource.
      */
-    public function show($supplierId)
+    public function show()
     {
-        $supplier = Suppliers::findOrFail($supplierId);
-        $items = $supplier->items; // Pretpostavljam da imaš relaciju items na Supplier modelu
+        $userId = auth()->id();
 
-        return view('itemSuppliers.addeditems', compact('supplier', 'items'));
+        $supplier = Suppliers::where("user_id", $userId)->first();
+        $supplierItems = $supplier->supplierItems;
+
+        return view('itemSuppliers.addeditems', compact('supplier', 'supplierItems'));
     }
 
 

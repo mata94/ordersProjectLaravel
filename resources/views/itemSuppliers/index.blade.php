@@ -5,14 +5,10 @@
     <title>Available Items</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body style="display: block">
+@include('common.header')
 <div class="container mt-5">
-    <h1 class="mb-4">Available Items for Suppliers</h1>
-
-    <div class="d-flex justify-content-end mb-3">
-        <a href="{{ route('supplier-items.show', 1) }}" class="btn btn-success">View Added Items for Supplier 1</a>
-    </div>
-
+    <h1 class="mb-4">Available Items for Supplier</h1>
     <table class="table table-bordered">
         <thead>
         <tr>

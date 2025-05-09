@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Suppliers;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class SuppliersController extends Controller
     {
         $suppliers = Suppliers::with('user')->get();
         return view('suppliers/index', compact('suppliers'));
-        
+
     }
 
     /**
@@ -23,7 +24,7 @@ class SuppliersController extends Controller
      */
     public function create()
     {
-        $users = User::all(); // Ako želiš omogućiti izbor usera
+        $users = User::all();
         return view('suppliers/create', compact('users'));
     }
 
@@ -40,7 +41,7 @@ class SuppliersController extends Controller
 
         Suppliers::create($validated);
 
-        return redirect()->route('suppliers.index')->with('success', 'Supplier updated successfully!');
+        return redirect()->route('admin.suppliers')->with('success', 'Supplier updated successfully!');
 
     }
 
@@ -66,7 +67,7 @@ class SuppliersController extends Controller
 
         $supplier->update($validated);
 
-        return redirect()->route('suppliers.index')->with('success', 'Supplier updated successfully!');
+        return redirect()->route('admin.suppliers')->with('success', 'Supplier updated successfully!');
     }
 
     /**

@@ -44,7 +44,7 @@
         </div>
 
         <button type="submit" class="btn btn-success">Save Supplier</button>
-        <a href="{{ route('suppliers.index') }}" class="btn btn-secondary">Back</a>
+        <a href="{{ route('admin.suppliers') }}" class="btn btn-secondary">Back</a>
     </form>
 </div>
 </body>

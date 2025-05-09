@@ -20,7 +20,7 @@
         </div>
     @endif
 
-    <form action="{{ route('items.store') }}" method="POST">
+    <form action="{{ route('admin.items.store') }}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="item_name" class="form-label">Item Name</label>
@@ -38,7 +38,7 @@
         </div>
 
         <button type="submit" class="btn btn-success">Save Item</button>
-        <a href="{{ route('items.index') }}" class="btn btn-secondary">Back</a>
+        <a href="{{ route('admin.items') }}" class="btn btn-secondary">Back</a>
     </form>
 </div>
 </body>

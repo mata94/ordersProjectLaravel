@@ -11,7 +11,8 @@
         .action-buttons { display: flex; gap: 5px; }
     </style>
 </head>
-<body>
+<body style="display: block">
+@include('common.header')
 <div class="container admin-container">
     <h2 class="text-center mb-4">Admin - User Management</h2>
 
@@ -36,13 +37,13 @@
                 <td>{{ $user->role }}</td>
                 <td>
                     <div class="action-buttons">
-                        <form method="POST" action="{{ route('admin.users.update', $user->id) }}">
-
+                        <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form method="POST" action="{{ route('admin.user.destroy', $user->id) }}" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                         </form>
+
                     </div>
                 </td>
             </tr>
