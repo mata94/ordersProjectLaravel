@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Suppliers;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SuppliersController extends Controller
 {
@@ -16,7 +17,6 @@ class SuppliersController extends Controller
     {
         $suppliers = Suppliers::with('user')->get();
         return view('suppliers/index', compact('suppliers'));
-
     }
 
     /**
@@ -35,14 +35,17 @@ class SuppliersController extends Controller
     {
         $validated = $request->validate([
             'company_name' => 'required|string|max:255',
-            'user_id' => 'required|exists:users,id',
+            'user_id' => [
+                'required',
+                'exists:users,id',
+                Rule::unique('suppliers', 'user_id'),
+            ],
             'contact_person' => 'nullable|string|max:255',
         ]);
 
         Suppliers::create($validated);
 
         return redirect()->route('admin.suppliers')->with('success', 'Supplier updated successfully!');
-
     }
 
     /**

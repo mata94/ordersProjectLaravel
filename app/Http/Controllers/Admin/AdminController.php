@@ -14,13 +14,11 @@ class AdminController extends Controller
         return view('admin.index', compact('users'));
     }
 
-    // Prikaz forme za kreiranje korisnika
     public function showCreateUserForm()
     {
         return view('admin.createUser');
     }
 
-    // Pohranjivanje novog korisnika
     public function createUser(Request $request)
     {
         $request->validate([
@@ -73,6 +71,6 @@ class AdminController extends Controller
         $user->role = $request->role ?? $user->role;
         $user->save();
 
-        return redirect()->route('admin.users')->with('success', 'User updated successfully.');
+        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
 }

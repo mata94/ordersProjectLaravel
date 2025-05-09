@@ -43,7 +43,7 @@ class ItemController extends Controller
             'unit_price' => $request->unit_price,
         ]);
 
-        return redirect()->route('items.index')->with('success', 'Item created successfully!');
+        return redirect()->route('admin.items')->with('success', 'Item created successfully!');
     }
 
     /**
@@ -63,7 +63,7 @@ class ItemController extends Controller
     public function edit($item_id)
     {
         $item = Item::findOrFail($item_id);
-        return view('items.edit', compact('item'));
+        return view('items/edit', compact('item'));
     }
 
 
@@ -81,7 +81,7 @@ class ItemController extends Controller
         $item = Item::findOrFail($id);
         $item->update($request->only(['item_name', 'item_description', 'unit_price']));
 
-        return redirect()->route('items.index')->with('success', 'Item updated successfully!');
+        return redirect()->route('admin.items')->with('success', 'Item updated successfully!');
     }
 
 
