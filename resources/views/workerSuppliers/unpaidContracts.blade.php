@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contracts List</title>
+    <title>Unpaid Contracts List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body style="display: block">
 @include('common.header')
 <div class="container mt-5">
-    <h1 class="mb-4">My Contracts</h1>
+    <h1 class="mb-4">Unpaid Contracts</h1>
 
     @if(session('success'))
         <div class="alert alert-success">
@@ -41,14 +41,13 @@
                 <td>{{ $contract->user->name ?? 'Unknown User' }}</td>
                 <td>{{ $contract->status }}</td>
                 <td>
-                    <a href="{{ route('worker.myContract.contractItems', $contract->id) }}" class="btn btn-warning btn-sm">View Items</a>
-                    @if($contract->status === 'Pending')
-                        <form action="{{ route('worker.deletePendingContract', $contract->id) }}" method="POST" style="display:inline;">
+                    <div class="d-flex">
+                        <a href="{{ route('worker.myContract.contractItems', $contract->id) }}" class="btn btn-warning btn-sm me-2">View Items</a>
+                        <form action="{{ route('worker.createBill', $contract->id) }}" method="POST">
                             @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                            <button type="submit" class="btn btn-success btn-sm">Create Bill</button>
                         </form>
-                    @endif
+                    </div>
                 </td>
             </tr>
         @endforeach

@@ -12,6 +12,7 @@ class User extends Authenticatable
     const ROLE_ADMIN = "admin";
     const ROLE_WORKER = "worker";
     const ROLE_SUPPLIER = "supplier";
+    const ROLE_DIRECTOR = "director";
 
 
     /** @use HasFactory<\Database\Factories\UserFactory> */

@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contracts List</title>
+    <title>Pending Contracts List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body style="display: block">
 @include('common.header')
 <div class="container mt-5">
-    <h1 class="mb-4">My Contracts</h1>
+    <h1 class="mb-4">Pending Contracts</h1>
 
     @if(session('success'))
         <div class="alert alert-success">
@@ -40,15 +40,22 @@
                 <td>{{ number_format($contract->total_value, 2) }}</td>
                 <td>{{ $contract->user->name ?? 'Unknown User' }}</td>
                 <td>{{ $contract->status }}</td>
-                <td>
-                    <a href="{{ route('worker.myContract.contractItems', $contract->id) }}" class="btn btn-warning btn-sm">View Items</a>
-                    @if($contract->status === 'Pending')
-                        <form action="{{ route('worker.deletePendingContract', $contract->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
-                    @endif
+                <td class="d-flex gap-1">
+                    <a href="{{ route('director.contractItems', $contract->id) }}" class="btn btn-warning btn-sm">
+                        View Items
+                    </a>
+
+                    <form action="{{ route('director.changeContractStatus', $contract->id) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="status" value="rejected">
+                        <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                    </form>
+
+                    <form action="{{ route('director.changeContractStatus', $contract->id) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="status" value="approved">
+                        <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                    </form>
                 </td>
             </tr>
         @endforeach

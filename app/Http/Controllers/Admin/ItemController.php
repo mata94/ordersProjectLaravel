@@ -90,7 +90,8 @@ class ItemController extends Controller
      */
     public function destroy($item_id)
     {
-
+        Item::destroy($item_id);
+        return redirect()->route('admin.items')->with('success', 'Item deleted successfully!');
     }
 
 }

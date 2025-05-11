@@ -14,6 +14,8 @@ class BaseController
             return redirect('/admin/users');
         }else if($user->hasRole('supplier')){
             return redirect('/supplier/available-items');
+        } else if($user->hasRole('director')){
+            return redirect('/director/pending-contracts');
         }
         else {
             return redirect('/worker/suppliers');

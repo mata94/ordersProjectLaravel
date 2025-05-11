@@ -24,7 +24,7 @@ class SuppliersController extends Controller
      */
     public function create()
     {
-        $users = User::all();
+        $users = User::where('role', 'supplier')->get();
         return view('suppliers/create', compact('users'));
     }
 
@@ -64,7 +64,11 @@ class SuppliersController extends Controller
     {
         $validated = $request->validate([
             'company_name' => 'required|string|max:255',
-            'user_id' => 'required|exists:users,id',
+            'user_id' => [
+                'required',
+                'exists:users,id',
+                Rule::unique('suppliers', 'user_id'),
+            ],
             'contact_person' => 'nullable|string|max:255',
         ]);
 
@@ -80,6 +84,6 @@ class SuppliersController extends Controller
     {
         $supplier->delete();
 
-        return redirect()->route('suppliers/index')->with('success', 'Supplier deleted successfully!');
+        return redirect()->route('admin.suppliers')->with('success', 'Supplier deleted successfully!');
     }
 }

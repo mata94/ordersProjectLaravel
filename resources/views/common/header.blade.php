@@ -1,6 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light mb-5" style="background-color: gray;">
     <div class="container-fluid">
-        <a class="navbar-brand" style="color: white;" href="#">Order and  Suppliers</a>
+        <a class="navbar-brand" style="color: white;" href="#">
+            Order and  Suppliers - {{ strtoupper(auth()->user()->role) }}
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -25,6 +27,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('supplier-items.show')}}">My Items</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ route('supplier.bills') }}">Bills</a>
+                    </li>
                 @endif
 
                 @if(auth()->user() && auth()->user()->role == \App\Models\User::ROLE_WORKER)
@@ -33,6 +38,24 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ route('worker.contract.myContracts') }}">My Contracts</a>
+                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('worker.unpaidContracts') }}">Unpaid Contracts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('worker.bills') }}">Bills</a>
+                    </li>
+                @endif
+
+                @if(auth()->user() && auth()->user()->role == \App\Models\User::ROLE_DIRECTOR)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('director.pendingContracts') }}">Active contracts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ route('director.allContracts') }}">All contracts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ route('director.bills') }}">Bills</a>
                     </li>
                 @endif
 

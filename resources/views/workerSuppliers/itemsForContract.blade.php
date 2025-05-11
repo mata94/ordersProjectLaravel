@@ -76,10 +76,12 @@
         </tbody>
     </table>
     <div>
-        <form action="{{ route('contract.finish', ['id' => $contract->id]) }}" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-success">Finish Contract</button>
-        </form>
+        @if($contractItems->isNotEmpty())
+            <form action="{{ route('contract.finish', ['id' => $contract->id]) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-success">Finish Contract</button>
+            </form>
+        @endif
     </div>
 </div>
 </body>

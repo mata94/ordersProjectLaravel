@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contract extends Model
 {
+    public const PENDING = 'Pending';
+    public const REJECTED = 'Rejected';
+    public const APPROVED = 'Approved';
+
     protected $fillable = [
         'supplier_id',
         'user_id',
@@ -18,6 +22,7 @@ class Contract extends Model
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
+        'approved_at' => 'datetime',
     ];
 
     public function user()
@@ -33,5 +38,15 @@ class Contract extends Model
     public function contractItems()
     {
         return $this->hasMany(ContractItems::class);
+    }
+
+    public function approver()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    public function bills()
+    {
+        return $this->hasMany(Bill::class);
     }
 }

@@ -9,6 +9,16 @@ Route::get('/', [\App\Http\Controllers\BaseController::class, 'index'])->name('i
 
 Route::resource('contracts', \App\Http\Controllers\ContractController::class);
 
+Route::middleware([\App\Http\Middleware\RoleMiddleware::class . ':director'])->group(function () {
+    Route::get('/director/pending-contracts', [\App\Http\Controllers\Director\ContractController::class, 'getAllPendingContracts'])->name('director.pendingContracts');
+    Route::get('/director/contracts', [\App\Http\Controllers\Director\ContractController::class, 'allContracts'])->name('director.allContracts');
+    Route::get('/director/contract/{contractId}/items', [\App\Http\Controllers\Director\ContractController::class, 'getContractItems'])->name('director.contractItems');
+    Route::post('/director/contract/{contractId}/change-status', [\App\Http\Controllers\Director\ContractController::class, 'changeStatus'])->name('director.changeContractStatus');
+    Route::get('/director/bills', [\App\Http\Controllers\Director\BillController::class, 'getAllBills'])->name('director.bills');
+    Route::get('/director/bills/export', [\App\Http\Controllers\Director\BillController::class, 'export'])->name('director.bills.export');
+
+});
+
 Route::middleware([\App\Http\Middleware\RoleMiddleware::class . ':supplier'])->group(function () {
     Route::resource('/supplier/available-items', \App\Http\Controllers\Supplier\SupplierItemController::class)->names([
         'index' => 'supplier.available-items',
@@ -16,6 +26,7 @@ Route::middleware([\App\Http\Middleware\RoleMiddleware::class . ':supplier'])->g
         'store' => 'supplier-items.store',
     ]);
     Route::get('/supplier/my-items', [\App\Http\Controllers\Supplier\SupplierItemController::class, 'show'])->name('supplier-items.show');
+    Route::get('/supplier/bills', [\App\Http\Controllers\Supplier\BillController::class, 'getAllBills'])->name('supplier.bills');
 });
 
 Route::middleware([\App\Http\Middleware\RoleMiddleware::class . ':worker'])->group(function () {
@@ -26,6 +37,10 @@ Route::middleware([\App\Http\Middleware\RoleMiddleware::class . ':worker'])->gro
     Route::post('/contract/{id}/finish', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'finishContract'])->name('contract.finish');
     Route::get('/worker/contracts', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'myContracts'])->name('worker.contract.myContracts');
     Route::get('/worker/contract/{contractId}/items', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'contractItems'])->name('worker.myContract.contractItems');
+    Route::get('/worker/bills', [\App\Http\Controllers\Worker\BillController::class, 'getAllBills'])->name('worker.bills');
+    Route::post('/worker/contract/{contractId}/bill', [\App\Http\Controllers\Worker\BillController::class, 'createBill'])->name('worker.createBill');
+    Route::get('/worker/unpaidContracts', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'unpaidContracts'])->name('worker.unpaidContracts');
+    Route::delete('/worker/contract/{contractId}', [\App\Http\Controllers\Worker\SuppliersWorker::class, 'deletePendingContract'])->name('worker.deletePendingContract');
 });
 
 Route::middleware([\App\Http\Middleware\RoleMiddleware::class . ':admin'])->group(function () {

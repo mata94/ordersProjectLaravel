@@ -65,6 +65,7 @@
                 <option value="admin">Admin</option>
                 <option value="supplier">Supplier</option>
                 <option value="worker">Worker</option>
+                <option value="director">Director</option>
             </select>
         </div>
 

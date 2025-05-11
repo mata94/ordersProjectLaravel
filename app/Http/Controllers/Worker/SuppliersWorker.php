@@ -30,7 +30,7 @@ class SuppliersWorker
     public function createContract($id)
     {
         $supplier = Suppliers::findOrFail($id);
-        $supplierItems = SupplierItems::with('item')->where('supplier_id', $id)->get();
+        $supplierItems = SupplierItems::with('item')->where('supplier_id', $id)->where('quantity', '>', 0)->get();
         $contractId = request()->input('contractId');
 
         if ($contractId) {
@@ -130,11 +130,40 @@ class SuppliersWorker
         ]);
     }
 
+    public function unpaidContracts()
+    {
+        $userId = auth()->id();
+
+        $contracts = Contract::where('user_id', $userId)
+            ->where('status', Contract::APPROVED)
+            ->whereDoesntHave('bills')
+            ->with('supplier', 'user')
+            ->get();
+
+        return view('workerSuppliers/unpaidContracts',[
+            "contracts" => $contracts,
+        ]);
+    }
+
     public function contractItems($contractId)
     {
         $contractItems = ContractItems::where('contract_id',$contractId)->with('item')->get();
         return view('workerSuppliers/contractItems', [
             'contractItems' => $contractItems,
         ]);
+    }
+
+    public function deletePendingContract($contractId)
+    {
+        $contract = Contract::findOrFail($contractId);
+        $contractItems = $contract->contractItems();
+        if($contractItems){
+            foreach ($contractItems as $contractItem) {
+                $contractItem->delete();
+            }
+        }
+
+        $contract->delete();
+        return redirect()->route('worker.contract.myContracts');
     }
 }
