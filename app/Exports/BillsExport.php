@@ -2,16 +2,40 @@
 
 namespace App\Exports;
 
-use App\Models\Bill;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Illuminate\Support\Facades\Log;
 
-class BillsExport implements FromCollection
+class BillsExport implements FromArray, WithHeadings
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+    public function array(): array
     {
-        return Bill::all();
+        $bills = \App\Models\Bill::with('supplier', 'contract', 'createdBy')->get();
+
+        return $bills->map(function ($bill) {
+            Log::info('Exporting bill:', [
+                'supplier' => $bill->supplier->company_name ?? '',
+                'contract' => $bill->contract->contract_number ?? '',
+                'worker' => $bill->createdBy->name ?? '',
+                'amount' => $bill->amount,
+            ]);
+
+            return [
+                $bill->supplier->company_name ?? '',
+                $bill->contract->contract_number ?? '',
+                $bill->createdBy->name ?? '',
+                $bill->amount,
+            ];
+        })->toArray();
+    }
+
+    public function headings(): array
+    {
+        return [
+            'Supplier Name',
+            'Contract Number',
+            'Worker',
+            'Amount',
+        ];
     }
 }
