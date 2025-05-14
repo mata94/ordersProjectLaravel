@@ -15,6 +15,7 @@ Route::middleware([\App\Http\Middleware\RoleMiddleware::class . ':director'])->g
     Route::get('/director/contract/{contractId}/items', [\App\Http\Controllers\Director\ContractController::class, 'getContractItems'])->name('director.contractItems');
     Route::post('/director/contract/{contractId}/change-status', [\App\Http\Controllers\Director\ContractController::class, 'changeStatus'])->name('director.changeContractStatus');
     Route::get('/director/bills', [\App\Http\Controllers\Director\BillController::class, 'getAllBills'])->name('director.bills');
+    Route::get('/director/bills/{contract}/items', [\App\Http\Controllers\Director\BillController::class, 'showItems'])->name('director.bills.items');
     Route::get('/director/bills/export', [\App\Http\Controllers\Director\BillController::class, 'export'])->name('director.bills.export');
 
 });

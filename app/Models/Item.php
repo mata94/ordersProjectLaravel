@@ -26,4 +26,9 @@ class Item extends Model
         return $this->hasMany(SupplierItems::class);
     }
 
+    public function contracts()
+    {
+        return $this->belongsToMany(Contract::class, 'contract_items', 'item_id', 'contract_id');
+    }
+
 }

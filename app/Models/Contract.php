@@ -49,4 +49,11 @@ class Contract extends Model
     {
         return $this->hasMany(Bill::class);
     }
+
+    public function items()
+    {
+        return $this->belongsToMany(Item::class, 'contract_items', 'contract_id', 'item_id')
+            ->withPivot('quantity', 'price_per_unit')
+            ->withTimestamps();
+    }
 }

@@ -28,6 +28,7 @@
             <th>Contract Number</th>
             <th>Worker</th>
             <th>Amount</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -38,6 +39,10 @@
                 <td>{{ $bill->contract->contract_number }}</td>
                 <td>{{ $bill->createdBy->name }}</td>
                 <td>{{ $bill->amount }}</td>
+                <td>
+                    <a href="{{ route('director.bills.items', $bill->contract->id) }}" class="btn btn-primary">View Items</a>
+                </td>
+
             </tr>
         @endforeach
         </tbody>
