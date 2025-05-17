@@ -35,6 +35,11 @@
             <button type="submit" class="btn btn-primary mb-3">Login</button>
             <a href="{{ route('register') }}" class="text-decoration-none">Nemate račun? Registriraj se</a>
         </div>
+        <a href="{{ url('/auth/google') }}" class="btn btn-outline-danger w-100 mt-3 d-flex align-items-center justify-content-center" style="border-radius: 5px;">
+            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="20" height="20" class="me-2">
+            Prijavi se preko Google-a
+        </a>
+
     </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -3,11 +3,35 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
 use Illuminate\Support\Facades\Route;
-
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 Route::get('/', [\App\Http\Controllers\BaseController::class, 'index'])->name('index');
 
 Route::resource('contracts', \App\Http\Controllers\ContractController::class);
+
+Route::post('/loginApi', [AuthController::class, 'loginApi']);
+
+Route::get('/auth/google', function () {
+    return Socialite::driver('google')->redirect();
+});
+
+Route::get('/auth/google/callback', function () {
+    $googleUser = Socialite::driver('google')->stateless()->user();
+
+    $user = \App\Models\User::firstOrCreate(
+        ['email' => $googleUser->getEmail()],
+        [
+            'name' => $googleUser->getName(),
+            'password' => bcrypt(Str::random(24)),
+        ]
+    );
+
+    Auth::login($user);
+
+    return redirect('/');
+});
 
 Route::middleware([\App\Http\Middleware\RoleMiddleware::class . ':director'])->group(function () {
     Route::get('/director/pending-contracts', [\App\Http\Controllers\Director\ContractController::class, 'getAllPendingContracts'])->name('director.pendingContracts');

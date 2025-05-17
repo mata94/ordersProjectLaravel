@@ -30,5 +30,4 @@ class Item extends Model
     {
         return $this->belongsToMany(Contract::class, 'contract_items', 'item_id', 'contract_id');
     }
-
 }
