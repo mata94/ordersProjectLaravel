@@ -11,8 +11,6 @@ Route::get('/', [\App\Http\Controllers\BaseController::class, 'index'])->name('i
 
 Route::resource('contracts', \App\Http\Controllers\ContractController::class);
 
-Route::post('/loginApi', [AuthController::class, 'loginApi']);
-
 Route::get('/auth/google', function () {
     return Socialite::driver('google')->redirect();
 });

@@ -15,7 +15,6 @@ class BillController
         return view('director.bills', compact('bills'));
     }
 
-    // Director/BillController.php
     public function showItems($contract)
     {
         $contract = Contract::with('items')->findOrFail($contract);

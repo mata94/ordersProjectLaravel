@@ -41,7 +41,10 @@ class SupplierItemController extends Controller
         $supplier = Suppliers::where("user_id", $userId)->first();
 
         $item = Item::findOrFail($validated['item_id']);
-        $supplierItem = SupplierItems::where('item_id', $validated['item_id'])->first();
+
+        $supplierItem = SupplierItems::where('item_id', $validated['item_id'])
+            ->where('supplier_id', $supplier->id)
+            ->first();
 
         if($supplierItem){
             $supplierItem->update(['quantity' => $supplierItem->quantity + $validated['quantity']]);
